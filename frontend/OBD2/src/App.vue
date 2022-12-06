@@ -1,43 +1,76 @@
-<template>
+<style>
+html {
+    overflow: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+</style>
+<template >
     <v-container>
         <v-row no-gutters>
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <v-progress-circular :size="200" color="black" model-value="20"></v-progress-circular>
+                    <v-progress-circular :size="200" :width="15" color="white" :model-value="carData.SPEED">
+                        <h2>{{ carData.SPEED }} MPH </h2>
+                    </v-progress-circular>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <v-progress-circular :size="300" color="red" model-value="20"></v-progress-circular>
+                    <div v-if="(carData.RPM > 7000)">
+                        <v-progress-circular :size="300" :width="15" color="red" :model-value="(8000 / carData.RPM)">
+                            <h2>
+                                {{ carData.RPM }} RPM
+                            </h2>
+                        </v-progress-circular>
+                    </div>
+                    <div v-if="(carData.RPM > 5000)">
+                        <v-progress-circular :size="300" :width="15" color="orange" :model-value="(8000 / carData.RPM)">
+                            <h2>
+                                {{ carData.RPM }} RPM
+                            </h2>
+                        </v-progress-circular>
+                    </div>
+                    <div v-else>
+                        <v-progress-circular :size="300" :width="15" color="yellow" :model-value="(8000 / carData.RPM)">
+                            <h2>
+                                {{ carData.RPM }} RPM
+                            </h2>
+                        </v-progress-circular>
+                    </div>
+
+
+
+
                 </v-card-actions>
             </v-col>
 
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <v-progress-circular :size="200" color="blue" model-value="20"></v-progress-circular>
+                    <v-progress-circular :size="200" :width="15" color="blue" :model-value="carData.THROTTLE">
+                        <h2>
+                            Throttle: {{ carData.THROTTLE }}%
+                        </h2>
+                    </v-progress-circular>
                 </v-card-actions>
             </v-col>
         </v-row>
         <v-row no-gutters>
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <h3>
-                        {{ carData.SPEED }}
-                    </h3>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <h3>
-                        {{ carData.RPM }}
-                    </h3>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
-                    <h3>
-                        {{ carData.THROTTLE }}
-                    </h3>
                 </v-card-actions>
             </v-col>
         </v-row>
@@ -45,7 +78,7 @@
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h2>
-                        {{ carData.BOOST }}
+                        Boost: {{ carData.BOOST }} PSI
                     </h2>
                 </v-card-actions>
             </v-col>
@@ -58,7 +91,7 @@
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h2>
-                        {{ carData.TEMP }}
+                        Oil Temp: {{ carData.TEMP }}°C
                     </h2>
                 </v-card-actions>
             </v-col>
@@ -89,7 +122,7 @@ export default {
                     this.carData = response.data
                 })
                 .catch(error => console.log(error))
-        window.setTimeout(this.updatecarData, this.timeout);
+            window.setTimeout(this.updatecarData, this.timeout);
         }
     }
 

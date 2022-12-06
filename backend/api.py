@@ -23,7 +23,7 @@ def car_data():
         "RPM": 1000,
         "SPEED": 10,
         "TEMP": 80,
-        "THROTTLE": 2000,
+        "THROTTLE": 2000/ 1000,
         "BOOST": 10
     }
     f.write(serialize_log(payload) + "\n")
