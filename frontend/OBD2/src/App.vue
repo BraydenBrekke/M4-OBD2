@@ -22,21 +22,21 @@
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h3>
-                    Speed
+                        {{ carData.SPEED }}
                     </h3>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h3>
-                    RPM
+                        {{ carData.RPM }}
                     </h3>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h3>
-                    Throttle
+                        {{ carData.THROTTLE }}
                     </h3>
                 </v-card-actions>
             </v-col>
@@ -45,21 +45,20 @@
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h2>
-                        Boost
+                        {{ carData.BOOST }}
                     </h2>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h1>
-                        Gear
                     </h1>
                 </v-card-actions>
             </v-col>
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h2>
-                        Gear
+                        {{ carData.TEMP }}
                     </h2>
                 </v-card-actions>
             </v-col>
@@ -76,17 +75,24 @@ export default {
     },
 
     data: () => ({
-        //
+        carData: {},
+        timeout: 1000
     }),
     mounted() {
-        axios.get("http://localhost:5000/")
-      .then(response => {
-         this.todosList = [...response.data].slice(0, 10)
-      })
-      .catch(err => {
-         // Manage the state of the application if the request 
-         // has failed      
-      })
-} 
+        const timer = window.setTimeout(this.updatecarData, this.timeout);
+    },
+    methods: {
+        updatecarData() {
+            axios
+                .get('http://127.0.0.1:5000')
+                .then(response => {
+                    this.carData = response.data
+                })
+                .catch(error => console.log(error))
+        window.setTimeout(this.updatecarData, this.timeout);
+        }
+    }
+
+
 }
 </script>

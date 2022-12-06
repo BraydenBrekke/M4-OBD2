@@ -1,11 +1,13 @@
 from flask import Flask, jsonify
 import obd
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 connection = obd.OBD("/dev/ttyUSB0") # auto connect
-f = open("m4.log", "a")
+f = open("/home/pi/OBD2/m4.log", "a")
 
 @app.route("/")
 
