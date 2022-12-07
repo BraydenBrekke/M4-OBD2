@@ -6,26 +6,20 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-connection = obd.OBD("/dev/ttyUSB0") # auto connect
+connection = obd.OBD() # auto connect
 f = open("/home/pi/OBD2/m4.log", "a")
 
 @app.route("/")
 
 def car_data():
-    #payload = { 
-    #    "RPM": float("{:.2f}".format(connection.query(obd.commands.RPM).value.magnitude)),
-    #    "SPEED": float("{:.2f}".format(connection.query(obd.commands.SPEED).value.to("mph").magnitude)),
-    #    "TEMP": float("{:.2f}".format(connection.query(obd.commands.OIL_TEMP).value.to("fahrenheit").magnitude)),
-    #    "THROTTLE": float("{:.2f}".format(connection.query(obd.commands.THROTTLE_POS).value.magnitude)),
-    #    "BOOST": float("{:.2f}".format(connection.query(obd.commands.INTAKE_PRESSURE).value.to("psi").magnitude))
-    #
     payload = { 
-        "RPM": 1000,
-        "SPEED": 10,
-        "TEMP": 80,
-        "THROTTLE": 2000/ 1000,
-        "BOOST": 10
+        "RPM": float("{:.2f}".format(connection.query(obd.commands.RPM).value.magnitude)),
+        "SPEED": float("{:.2f}".format(connection.query(obd.commands.SPEED).value.to("mph").magnitude)),
+        "TEMP": float("{:.2f}".format(connection.query(obd.commands.OIL_TEMP).value.to("celsius").magnitude)),
+        "THROTTLE":  abs(float("{:.0f}".format(13-connection.query(obd.commands.THROTTLE_POS).value.magnitude))),
+        "BOOST": float("{:.2f}".format(connection.query(obd.commands.INTAKE_PRESSURE).value.to("psi").magnitude))
     }
+    
     f.write(serialize_log(payload) + "\n")
 
     return jsonify(payload)

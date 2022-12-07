@@ -23,21 +23,21 @@ html::-webkit-scrollbar {
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <div v-if="(carData.RPM > 7000)">
-                        <v-progress-circular :size="300" :width="15" color="red" :model-value="(8000 / carData.RPM)">
+                        <v-progress-circular :size="300" :width="15" color="red" :model-value="(carData.RPM/8000)">
                             <h2>
                                 {{ carData.RPM }} RPM
                             </h2>
                         </v-progress-circular>
                     </div>
                     <div v-if="(carData.RPM > 5000)">
-                        <v-progress-circular :size="300" :width="15" color="orange" :model-value="(8000 / carData.RPM)">
+                        <v-progress-circular :size="300" :width="15" color="orange" :model-value="(carData.RPM/ 8000)">
                             <h2>
                                 {{ carData.RPM }} RPM
                             </h2>
                         </v-progress-circular>
                     </div>
                     <div v-else>
-                        <v-progress-circular :size="300" :width="15" color="yellow" :model-value="(8000 / carData.RPM)">
+                        <v-progress-circular :size="300" :width="15" color="yellow" :model-value="(carData.RPM/ 8000)">
                             <h2>
                                 {{ carData.RPM }} RPM
                             </h2>
@@ -78,7 +78,7 @@ html::-webkit-scrollbar {
             <v-col md="4">
                 <v-card-actions class="justify-center">
                     <h2>
-                        Boost: {{ carData.BOOST }} PSI
+                        Intake: {{ carData.BOOST }} PSI
                     </h2>
                 </v-card-actions>
             </v-col>
@@ -109,7 +109,7 @@ export default {
 
     data: () => ({
         carData: {},
-        timeout: 1000
+        timeout: 500
     }),
     mounted() {
         const timer = window.setTimeout(this.updatecarData, this.timeout);
